@@ -15,4 +15,17 @@ window.onload = () => {
 
         db = request.result;
     }
+
+    request.onupgradeneeded = function (e) {
+        let db = e.target.result;
+
+        let objectStore = db.createObjectStore('contacts', {keypath: 'id', autoIncrement: true});
+
+        objectStore.createIndex('firstName', 'firstName', {unique: false});
+        objectStore.createIndex('lastName', 'lastName', {unique: false});
+
+        console.log('Database setup complete');
+
+    }
+
 }
