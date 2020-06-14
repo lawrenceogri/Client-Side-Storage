@@ -1,22 +1,18 @@
-const input = document.querySelector('#name');
+let db;
+const firstNameInput = document.querySelector('#firstName');
+const lastNameInput = document.querySelector('#lastName');
 const form = document.querySelector('form');
-const submit = document.querySelector('#submitName');
-const remove = document.querySelector('#removeName');
 
-form.addEventListener('submit', (e) =>{
-    e.preventDefault();
-});
+window.onload = () => {
+    let request = window.indexedDB.open('conatcts', 1);
 
-submit.addEventListener('click', () => {
-    sessionStorage.setItem('name', input.value);
-});
+    request.onerror = function(){
+        console.log('Database failed to open');
+    }
 
-remove.addEventListener('click', () => {
-    sessionStorage.removeItem('name');
-});
+    request.onsuccess = function(){
+        console.log('Database opened successfully');
 
-const name = sessionStorage.getItem('name');
-
-const h1 = document.querySelector('#title');
-
-name ? h1.textContent = `Welcome ${name}` : h1.textContent = 'No one is home'; 
+        db = request.result;
+    }
+}
